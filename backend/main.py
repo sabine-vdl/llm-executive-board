@@ -10,9 +10,14 @@ import json
 import asyncio
 import os
 
-from . import storage
-from .council import run_full_council, generate_conversation_title, stage1_collect_responses, stage2_collect_rankings, stage3_synthesize_final, calculate_aggregate_rankings
-from .config import MODEL_ROLES, COUNCIL_MODELS, CHAIRMAN_MODEL
+try:
+    from . import storage
+    from .council import run_full_council, generate_conversation_title, stage1_collect_responses, stage2_collect_rankings, stage3_synthesize_final, calculate_aggregate_rankings
+    from .config import MODEL_ROLES, COUNCIL_MODELS, CHAIRMAN_MODEL
+except ImportError:
+    import storage
+    from council import run_full_council, generate_conversation_title, stage1_collect_responses, stage2_collect_rankings, stage3_synthesize_final, calculate_aggregate_rankings
+    from config import MODEL_ROLES, COUNCIL_MODELS, CHAIRMAN_MODEL
 
 app = FastAPI(title="LLM Council API - Executive Board")
 
