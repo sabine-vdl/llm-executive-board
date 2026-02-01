@@ -9,9 +9,11 @@ function App() {
   const [currentConversationId, setCurrentConversationId] = useState(null);
   const [currentConversation, setCurrentConversation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [modelRoles, setModelRoles] = useState({});
 
-  // Load conversations on mount
+  // Load config and conversations on mount
   useEffect(() => {
+    loadConfig();
     loadConversations();
   }, []);
 
@@ -21,6 +23,15 @@ function App() {
       loadConversation(currentConversationId);
     }
   }, [currentConversationId]);
+
+  const loadConfig = async () => {
+    try {
+      const config = await api.getConfig();
+      setModelRoles(config.model_roles || {});
+    } catch (error) {
+      console.error('Failed to load config:', error);
+    }
+  };
 
   const loadConversations = async () => {
     try {
@@ -193,6 +204,7 @@ function App() {
         conversation={currentConversation}
         onSendMessage={handleSendMessage}
         isLoading={isLoading}
+        modelRoles={modelRoles}
       />
     </div>
   );

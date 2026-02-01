@@ -14,8 +14,15 @@
 
 .sidebar-header h1 {
   font-size: 18px;
-  margin: 0 0 12px 0;
+  margin: 0 0 4px 0;
   color: #333;
+}
+
+.sidebar-subtitle {
+  font-size: 12px;
+  color: #666;
+  margin: 0 0 12px 0;
+  font-weight: 400;
 }
 
 .new-conversation-btn {

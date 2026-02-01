@@ -1,10 +1,21 @@
 /**
- * API client for the LLM Council backend.
+ * API client for the LLM Council Executive Board backend.
  */
 
-const API_BASE = 'http://localhost:8001';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8001';
 
 export const api = {
+  /**
+   * Get council configuration including model roles.
+   */
+  async getConfig() {
+    const response = await fetch(`${API_BASE}/api/config`);
+    if (!response.ok) {
+      throw new Error('Failed to get config');
+    }
+    return response.json();
+  },
+
   /**
    * List all conversations.
    */
