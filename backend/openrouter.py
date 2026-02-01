@@ -1,11 +1,16 @@
 """OpenRouter API client for making LLM requests."""
 
 import httpx
+import os
+import sys
 from typing import List, Dict, Any, Optional
-try:
-    from .config import OPENROUTER_API_KEY, OPENROUTER_API_URL
-except ImportError:
+
+# Handle imports for both package and direct execution
+if __package__ is None or __package__ == '':
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from config import OPENROUTER_API_KEY, OPENROUTER_API_URL
+else:
+    from .config import OPENROUTER_API_KEY, OPENROUTER_API_URL
 
 
 async def query_model(

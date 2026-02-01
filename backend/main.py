@@ -9,25 +9,28 @@ import uuid
 import json
 import asyncio
 import os
+import sys
 
-try:
-    from . import storage
-    from .council import run_full_council, generate_conversation_title, stage1_collect_responses, stage2_collect_rankings, stage3_synthesize_final, calculate_aggregate_rankings
-    from .config import MODEL_ROLES, COUNCIL_MODELS, CHAIRMAN_MODEL
-except ImportError:
+# Add parent directory to path for imports when running directly
+if __name__ == "__main__" or __package__ is None:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import storage
     from council import run_full_council, generate_conversation_title, stage1_collect_responses, stage2_collect_rankings, stage3_synthesize_final, calculate_aggregate_rankings
     from config import MODEL_ROLES, COUNCIL_MODELS, CHAIRMAN_MODEL
+else:
+    from . import storage
+    from .council import run_full_council, generate_conversation_title, stage1_collect_responses, stage2_collect_rankings, stage3_synthesize_final, calculate_aggregate_rankings
+    from .config import MODEL_ROLES, COUNCIL_MODELS, CHAIRMAN_MODEL
 
 app = FastAPI(title="LLM Council API - Executive Board")
 
 # Get allowed origins from environment or use defaults
-ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000,https://*.vercel.app").split(",")
 
-# Enable CORS
+# Enable CORS - allow all origins for now to simplify deployment
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
