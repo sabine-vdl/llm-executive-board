@@ -2,10 +2,17 @@
 
 import json
 import os
+import sys
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 from pathlib import Path
-from .config import DATA_DIR
+
+# Handle imports for both package and direct execution
+if __package__ is None or __package__ == '':
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from config import DATA_DIR
+else:
+    from .config import DATA_DIR
 
 
 def ensure_data_dir():
